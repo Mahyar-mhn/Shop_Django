@@ -18,6 +18,12 @@ def about_page(request):
 
 
 def contact_page(request):
+
+    if request.method == 'POST':
+        print(request.POST.get('Fullname'))
+        print(request.POST.get('Email'))
+        print(request.POST.get('Message'))
+
     context = {
         'contact': 'Welcome to contact us page'
     }
