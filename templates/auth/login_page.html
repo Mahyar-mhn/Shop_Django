@@ -35,7 +35,7 @@
         </div>
       </div>
   </nav>
-  <h2 class="text-center">{{ contact }}</h2>
+  <h2 class="text-center">{{ login }}</h2>
   <br>
   
   <div class="container">
@@ -43,7 +43,7 @@
           <div class="col-md-6">
               <form action="" method="post">
                   {% csrf_token %} 
-                  {{ contact_form }}
+                  {{ login_form }}
                   <br>
                   <button class="btn btn-danger">Send</button>
 
