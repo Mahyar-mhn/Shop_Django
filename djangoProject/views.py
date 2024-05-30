@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import Http404, HttpResponse
-
+from .forms import ContactForm
 
 def home_page(request):
     context = {
@@ -18,13 +18,14 @@ def about_page(request):
 
 
 def contact_page(request):
-
+    contact_form = ContactForm()
     if request.method == 'POST':
         print(request.POST.get('Fullname'))
         print(request.POST.get('Email'))
         print(request.POST.get('Message'))
 
     context = {
-        'contact': 'Welcome to contact us page'
+        'contact': 'Welcome to contact us page',
+        'contact_form': contact_form
     }
     return render(request, 'contact_us_page.html', context)
