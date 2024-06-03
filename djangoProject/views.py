@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse
 from .forms import *
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 
 
 def home_page(request):
@@ -54,6 +54,9 @@ def login_page(request):
     return render(request, 'auth/login_page.html', context)
 
 
+User = get_user_model()
+
+
 def register_page(request):
     register_form = RegisterForm(request.POST or None)
 
@@ -61,6 +64,8 @@ def register_page(request):
         username = register_form.cleaned_data.get('username')
         email = register_form.cleaned_data.get('email')
         password = register_form.cleaned_data.get('password')
+
+        User.objects.create_user(username=username, email=email, password=password)
 
 
     context = {

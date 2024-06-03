@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.contrib.auth import get_user_model
 
 
 class ContactForm(forms.Form):
@@ -24,6 +25,9 @@ class LoginForm(forms.Form):
     )
 
 
+User = get_user_model()
+
+
 class RegisterForm(forms.Form):
     username = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your UserName'})
@@ -39,11 +43,17 @@ class RegisterForm(forms.Form):
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password'})
     )
 
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exists():
+            raise ValidationError('Username already exists')
+        return username
+
     def clean_email(self):
         email = self.cleaned_data['email']
 
         if User.objects.filter(email=email).exists():
-            raise ValidationError('Email already registered')
+            raise ValidationError('Email already exists')
 
         return email
 
