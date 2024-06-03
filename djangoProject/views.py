@@ -55,4 +55,17 @@ def login_page(request):
 
 
 def register_page(request):
-    pass
+    register_form = RegisterForm(request.POST or None)
+
+    if register_form.is_valid():
+        username = register_form.cleaned_data.get('username')
+        email = register_form.cleaned_data.get('email')
+        password = register_form.cleaned_data.get('password')
+
+
+    context = {
+        'title': 'Register Page',
+        'message': 'Welcome to register page',
+        'register_form': register_form
+    }
+    return render(request, 'auth/register.html', context)
